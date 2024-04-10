@@ -7,6 +7,7 @@ import Legacy from './components/Legacy';
 import NamesOf from './components/NamesOf';
 import SubmittedBox from './components/SubmittedBox';
 import { Button, Typography } from '@mui/material';
+import App2 from './App2';
 
 function App() {
   const [step, setStep] = useState(1); // Track the current step, start from step 1 (concerns)
@@ -45,6 +46,7 @@ function App() {
   }
 
   return (
+    // <App2 />
     <>
       <Typography variant="h1" color="primary" align="center">
         The Superplan Program
