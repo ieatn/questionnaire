@@ -8,12 +8,17 @@ import NamesOf from './components/NamesOf';
 import SubmittedBox from './components/SubmittedBox';
 import { Button, Typography } from '@mui/material';
 import App2 from './App2';
+import Navbar from './Navbar';
 
 function App() {
   const [step, setStep] = useState(1); // Track the current step, start from step 1 (concerns)
 
   const handleNext = () => {
     setStep(step + 1); // Move to the next step
+  };
+
+  const handleSelect = (selectedStep) => {
+    setStep(selectedStep);
   };
 
   let content = null;
@@ -48,6 +53,7 @@ function App() {
   return (
     // <App2 />
     <>
+      <Navbar onSelect={handleSelect} />
       <Typography variant="h1" color="primary" align="center">
         The Superplan Program
       </Typography>
