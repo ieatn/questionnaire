@@ -6,8 +6,8 @@ function App() {
 
   return (
     <>
-      <App2 />
-      {/* <App1 /> */}
+      {/* <App2 /> */}
+      <App1 />
     </>
   );
 }
