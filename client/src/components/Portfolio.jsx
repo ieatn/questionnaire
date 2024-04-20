@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Typography, Checkbox, FormControlLabel, Button } from '@mui/material';
+import { useForm } from '../contexts/FormContext'; // Assuming FormContext is in the same directory
 
 function Portfolio({ onNext }) {
-  const [personalFinancialStatements, setPersonalFinancialStatements] = useState(false);
-  const [k401, set401k] = useState(false);
-  const [brokerage, setBrokerage] = useState(false);
-  const [llc, setLLC] = useState(false);
+  const { personalFinancialStatements, setPersonalFinancialStatements, k401, set401k, brokerage, setBrokerage, llc, setLLC } = useForm(); // Consume the FormContext
+  // const [personalFinancialStatements, setPersonalFinancialStatements] = useState(false);
+  // const [k401, set401k] = useState(false);
+  // const [brokerage, setBrokerage] = useState(false);
+  // const [llc, setLLC] = useState(false);
+
 
   const handlePersonalFinancialStatementsChange = (event) => {
     setPersonalFinancialStatements(event.target.checked);

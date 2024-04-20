@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_mysqldb import MySQL
 import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Configure MySQL
 app.config['MYSQL_HOST'] = 'localhost'
@@ -20,10 +22,57 @@ def hello_world():
 @app.route('/submit_data', methods=['GET'])
 def get_data():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM submitted_data")
+    cur.execute("SELECT concerns, goals, cash_flow, portfolio, legacy, names_of FROM submitted_data")
     data = cur.fetchall()
     cur.close()
-    return jsonify(data)
+
+    # Splitting the fetched data into separate arrays
+    concerns = [item[0] for item in data]
+    goals = [item[1] for item in data]
+    cash_flow = [item[2] for item in data]
+    portfolio = [item[3] for item in data]
+    legacy = [item[4] for item in data]
+    names_of = [item[5] for item in data]
+
+    return jsonify({
+        'concerns': concerns,
+        'goals': goals,
+        'cash_flow': cash_flow,
+        'portfolio': portfolio,
+        'legacy': legacy,
+        'names_of': names_of
+    })
+
+
+# Function to handle GET request for fetching data based on ID
+@app.route('/submit_data/<int:id>', methods=['GET'])
+def get_data_by_id(id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT concerns, goals, cash_flow, portfolio, legacy, names_of FROM submitted_data WHERE id = %s", (id,))
+    data = cur.fetchone()
+    cur.close()
+
+    if data:
+        # Extracting values from the fetched data
+        concerns = data[0]
+        goals = data[1]
+        cash_flow = data[2]
+        portfolio = data[3]
+        legacy = data[4]
+        names_of = data[5]
+
+        return jsonify({
+            'id': id,
+            'concerns': concerns,
+            'goals': goals,
+            'cash_flow': cash_flow,
+            'portfolio': portfolio,
+            'legacy': legacy,
+            'names_of': names_of
+        })
+    else:
+        return jsonify({'message': 'Data not found for the given ID'}), 404
+
 
 # Endpoint to handle submitting data from the app
 @app.route('/submit_data', methods=['POST'])

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Typography, Checkbox, FormControlLabel, Button, Grid } from '@mui/material';
+import { useForm } from '../contexts/FormContext'; // Assuming FormContext is in the same directory
 
 function NamesOf({ onNext }) {
-  const [accountants, setAccountants] = useState(false);
-  const [attorneys, setAttorneys] = useState(false);
-  const [bankers, setBankers] = useState(false);
-  const [otherAdvisors, setOtherAdvisors] = useState(false);
-  const [favoriteCharities, setFavoriteCharities] = useState(false);
-  const [keyPersonnel, setKeyPersonnel] = useState(false);
+  const { accountants, setAccountants, attorneys, setAttorneys, bankers, setBankers, otherAdvisors, setOtherAdvisors, favoriteCharities, setFavoriteCharities, keyPersonnel, setKeyPersonnel } = useForm(); // Consume the FormContext
+  // const [accountants, setAccountants] = useState(false);
+  // const [attorneys, setAttorneys] = useState(false);
+  // const [bankers, setBankers] = useState(false);
+  // const [otherAdvisors, setOtherAdvisors] = useState(false);
+  // const [favoriteCharities, setFavoriteCharities] = useState(false);
+  // const [keyPersonnel, setKeyPersonnel] = useState(false);
+
 
   const handleAccountantsChange = (event) => {
     setAccountants(event.target.checked);

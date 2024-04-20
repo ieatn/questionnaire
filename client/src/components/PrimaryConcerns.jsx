@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
+import { useForm } from '../contexts/FormContext'; // Assuming FormContext is in the same directory
 
 function PrimaryConcerns() {
-  const [concerns, setConcerns] = useState(['']);
+  const { concerns, setConcerns } = useForm(); // Consume the FormContext
+  // const [concerns, setConcerns] = useState(['']);
 
   const handleAddInput = () => {
     setConcerns([...concerns, '']);

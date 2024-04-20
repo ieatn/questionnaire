@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Typography,
@@ -9,9 +9,186 @@ import {
   FormControlLabel,
   Grid
 } from "@mui/material";
+import { useForm } from "./contexts/FormContext"; // Import the useForm hook
+import axios from "axios";
+
+
 
 function App2() {
-  const [goals, setGoals] = useState([""]);
+
+  
+  const {
+    concerns,
+    setConcerns,
+    goals,
+    setGoals,
+
+    // cash_flow contains info on 4 checkboxes. i need to create a json state array? called cash_flow
+    personalIncome,
+    setPersonalIncome,
+    lastTwoYearsTaxReturn,
+    setLastTwoYearsTaxReturn,
+    personal, 
+    setPersonal,
+    business,
+    setBusiness,
+    showPersonal,
+    setShowPersonal,
+    showBusiness,
+    setShowBusiness,
+
+
+    personalFinancialStatements,
+    setPersonalFinancialStatements,
+    k401,
+    set401k,
+    brokerage,
+    setBrokerage,
+    llc,
+    setLLC,
+
+
+
+
+    wills,
+    setWills,
+    insurance,
+    setInsurance,
+    life,
+    setLife,
+    property,
+    setProperty,
+    showLife,
+    setShowLife,
+    showProperty,
+    setShowProperty,
+
+
+
+
+    accountants,
+    setAccountants,
+    attorneys,
+    setAttorneys,
+    bankers,
+    setBankers,
+    otherAdvisors,
+    setOtherAdvisors,
+    favoriteCharities,
+    setFavoriteCharities,
+    keyPersonnel,
+    setKeyPersonnel,
+  } = useForm(); // Consume the FormContext
+
+
+
+
+
+  const [cashFlow, setCashFlow] = useState(
+    {
+      "personalIncome": personalIncome,
+      "lastTwoYearsTaxReturn": lastTwoYearsTaxReturn,
+      "personal": personal,
+      "business": business,
+      "showPersonal": personal,
+      "showBusiness": business
+    }
+  );
+  const [portfolio, setPortfolio] = useState(
+    {
+      "personalFinancialStatements": personalFinancialStatements,
+      "k401": k401,
+      "brokerage": brokerage,
+      "llc": llc
+    }
+  );
+  const [legacy, setLegacy] = useState(
+    {
+      "wills": wills,
+      "insurance": insurance,
+      "life": life,
+      "property": property,
+      "showLife": showLife,
+      "showProperty": showProperty
+    }
+  );
+  const [namesOf, setNamesOf] = useState(
+    {
+      "accountants": accountants,
+      "attorneys": attorneys,
+      "bankers": bankers,
+      "otherAdvisors": otherAdvisors,
+      "favoriteCharities": favoriteCharities,
+      "keyPersonnel": keyPersonnel
+    }
+  );
+
+  useEffect(() => {
+    // Update cashFlow whenever any of its dependencies change
+    setCashFlow({
+      "personalIncome": personalIncome,
+      "lastTwoYearsTaxReturn": lastTwoYearsTaxReturn,
+      "personal": personal,
+      "business": business,
+      "showPersonal": personal,
+      "showBusiness": business
+    });
+  }, [personalIncome, lastTwoYearsTaxReturn, personal, business]);
+
+  // useEffect(() => {
+  //   console.log(cashFlow);
+  // }, [cashFlow]);
+  
+  useEffect(() => {
+    // Update portfolio whenever any of its dependencies change
+    setPortfolio({
+      "personalFinancialStatements": personalFinancialStatements,
+      "k401": k401,
+      "brokerage": brokerage,
+      "llc": llc
+    });
+  }, [personalFinancialStatements, k401, brokerage, llc]);
+  
+  useEffect(() => {
+    // Update legacy whenever any of its dependencies change
+    setLegacy({
+      "wills": wills,
+      "insurance": insurance,
+      "life": life,
+      "property": property,
+      "showLife": showLife,
+      "showProperty": showProperty
+    });
+  }, [wills, insurance, life, property, showLife, showProperty]);
+  
+  useEffect(() => {
+    // Update namesOf whenever any of its dependencies change
+    setNamesOf({
+      "accountants": accountants,
+      "attorneys": attorneys,
+      "bankers": bankers,
+      "otherAdvisors": otherAdvisors,
+      "favoriteCharities": favoriteCharities,
+      "keyPersonnel": keyPersonnel
+    });
+  }, [accountants, attorneys, bankers, otherAdvisors, favoriteCharities, keyPersonnel]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // const [goals, setGoals] = useState([""]);
 
   const handleAddInput = () => {
     setGoals([...goals, ""]);
@@ -23,7 +200,7 @@ function App2() {
     setGoals(newGoals);
   };
 
-  const [concerns, setConcerns] = useState([""]);
+  // const [concerns, setConcerns] = useState([""]);
 
   const handleAddConcernInput = () => {
     setConcerns([...concerns, ""]);
@@ -35,10 +212,10 @@ function App2() {
     setConcerns(newConcerns);
   };
 
-  const [personalIncome, setPersonalIncome] = useState(false);
-  const [lastTwoYearsTaxReturn, setLastTwoYearsTaxReturn] = useState(false);
-  const [showPersonal, setShowPersonal] = useState(false);
-  const [showBusiness, setShowBusiness] = useState(false);
+  // const [personalIncome, setPersonalIncome] = useState(false);
+  // const [lastTwoYearsTaxReturn, setLastTwoYearsTaxReturn] = useState(false);
+  // const [showPersonal, setShowPersonal] = useState(false);
+  // const [showBusiness, setShowBusiness] = useState(false);
 
   const handlePersonalIncomeChange = (event) => {
     setPersonalIncome(event.target.checked);
@@ -56,10 +233,10 @@ function App2() {
     }
   };
 
-  const [personalFinancialStatements, setPersonalFinancialStatements] = useState(false);
-  const [k401, set401k] = useState(false);
-  const [brokerage, setBrokerage] = useState(false);
-  const [llc, setLLC] = useState(false);
+  // const [personalFinancialStatements, setPersonalFinancialStatements] = useState(false);
+  // const [k401, set401k] = useState(false);
+  // const [brokerage, setBrokerage] = useState(false);
+  // const [llc, setLLC] = useState(false);
   const handlePersonalFinancialStatementsChange = (event) => {
     setPersonalFinancialStatements(event.target.checked);
   };
@@ -82,10 +259,10 @@ function App2() {
 
 
 
-  const [wills, setWills] = useState(false);
-  const [insurance, setInsurance] = useState(false);
-  const [showLife, setShowLife] = useState(false);
-  const [showProperty, setShowProperty] = useState(false);
+  // const [wills, setWills] = useState(false);
+  // const [insurance, setInsurance] = useState(false);
+  // const [showLife, setShowLife] = useState(false);
+  // const [showProperty, setShowProperty] = useState(false);
 
   const handleWillsChange = (event) => {
     setWills(event.target.checked);
@@ -102,12 +279,12 @@ function App2() {
       setShowProperty(false);
     }
   };
-  const [accountants, setAccountants] = useState(false);
-  const [attorneys, setAttorneys] = useState(false);
-  const [bankers, setBankers] = useState(false);
-  const [otherAdvisors, setOtherAdvisors] = useState(false);
-  const [favoriteCharities, setFavoriteCharities] = useState(false);
-  const [keyPersonnel, setKeyPersonnel] = useState(false);
+  // const [accountants, setAccountants] = useState(false);
+  // const [attorneys, setAttorneys] = useState(false);
+  // const [bankers, setBankers] = useState(false);
+  // const [otherAdvisors, setOtherAdvisors] = useState(false);
+  // const [favoriteCharities, setFavoriteCharities] = useState(false);
+  // const [keyPersonnel, setKeyPersonnel] = useState(false);
 
   const handleAccountantsChange = (event) => {
     setAccountants(event.target.checked);
@@ -133,15 +310,45 @@ function App2() {
     setKeyPersonnel(event.target.checked);
   };
 
+  const handleSubmit = () => {
+    // Send a PUT request to update existing data on the server
+    axios.put("http://localhost:5000/update_data", {
+      concerns,
+      goals,
+      cash_flow: cashFlow,
+      portfolio: portfolio,
+      legacy: legacy,
+      names_of: namesOf
+    })
+    .then((response) => {
+      console.log("Data updated successfully:", response.data);
+      // If update is successful, handle the response as needed
+    })
+    .catch((error) => {
+      console.error("Error updating data:", error);
+      // Handle error, show an error message to the user, etc.
+    });
+  };
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div style={{ width: "50%", margin: "auto" }}>
       <Container maxWidth="md">
-        <Typography variant="h2" color="primary" align="center" mt={4}>
-          The Superplan Program
-        </Typography>
-        <Typography variant="h4" color="textPrimary" align="center" mt={2}>
-          Present Situation Check List
-        </Typography>
         <Box
           display={"flex"}
           alignItems="center"
@@ -353,6 +560,7 @@ function App2() {
 
 
       </Box>
+      <Button variant="contained" color="primary" onClick={handleSubmit}>Update</Button>
       </Container>
     </div>
   );
