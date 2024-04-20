@@ -13,6 +13,7 @@ import StepLabel from "@mui/material/StepLabel";
 import axios from "axios";
 import { useForm } from "./contexts/FormContext"; // Import the useForm hook
 import { Link } from "react-router-dom";
+import App2 from "./App2";
 
 
 function App1() {
@@ -24,6 +25,7 @@ function App1() {
     "Portfolio",
     "Legacy",
     "NamesOf",
+    "Review",
     "Finished!",
   ];
 
@@ -219,7 +221,6 @@ function App1() {
   };
 
   const handleSelect = (selectedStep) => {
-    console.log(selectedStep);
     if (selectedStep === steps.length - 1) {
       return;
     }
@@ -250,8 +251,10 @@ function App1() {
       content = <NamesOf onNext={handleNext} />;
       break;
     case 7:
-      content = <SubmittedBox />;
+      content = <App2 />;
       break;
+    case 8:
+      content = <SubmittedBox />;
     default:
       content = null;
   }
@@ -304,13 +307,11 @@ function App1() {
 
 
 
-
   useEffect(() => {
     axios
       .get("http://localhost:5000/submit_data")
       .then((response) => { 
         const data = response.data;
-
         if (data.concerns.length === 0) {
           // If no data is returned, set default values for states
           setConcerns(['']);
@@ -379,8 +380,6 @@ function App1() {
 
 
 
-
-
   const handleSubmit = () => {
     // Send a POST request to the server to save the form data
     axios.post("http://localhost:5000/submit_data", {
@@ -424,7 +423,7 @@ function App1() {
       </Typography>
       {content}
       <div style={{ textAlign: "center", marginTop: "20px" }}>
-        {step < 7 ? (
+        {step < 8 ? (
           <>
             <Button
               variant="contained"
@@ -438,14 +437,13 @@ function App1() {
             <Button
               variant="contained"
               color="primary"
-              onClick={step === 6 ? handleSubmit : handleNext}
+              onClick={step === 7 ? handleSubmit : handleNext}
             >
-              {step === 6 ? "Submit" : "Next"}
+              {step === 7 ? "Submit" : "Next"}
             </Button>
           </>
         ) : null}
       </div>
-      <Button variant='contained' component={Link} to='/submitted'>View Form</Button>
     
     </>
   );
