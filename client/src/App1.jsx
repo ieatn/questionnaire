@@ -14,7 +14,8 @@ import axios from "axios";
 import { useForm } from "./contexts/FormContext"; // Import the useForm hook
 import { Link } from "react-router-dom";
 import App2 from "./App2";
-
+import LogoutButton from "./auth/LogoutButton"; 
+import Profile from "./auth/Profile";
 
 function App1() {
   const [step, setStep] = useState(1); // Track the current step, start from step 1 (concerns)
@@ -142,17 +143,17 @@ function App1() {
     }
   );
 
-  useEffect(() => {
-    // Update cashFlow whenever any of its dependencies change
-    setCashFlow({
-      "personalIncome": personalIncome,
-      "lastTwoYearsTaxReturn": lastTwoYearsTaxReturn,
-      "personal": personal,
-      "business": business,
-      "showPersonal": personal,
-      "showBusiness": business
-    });
-  }, [personalIncome, lastTwoYearsTaxReturn, personal, business]);
+  // useEffect(() => {
+  //   // Update cashFlow whenever any of its dependencies change
+  //   setCashFlow({
+  //     "personalIncome": personalIncome,
+  //     "lastTwoYearsTaxReturn": lastTwoYearsTaxReturn,
+  //     "personal": personal,
+  //     "business": business,
+  //     "showPersonal": personal,
+  //     "showBusiness": business
+  //   });
+  // }, [personalIncome, lastTwoYearsTaxReturn, personal, business]);
 
   // useEffect(() => {
   //   console.log(cashFlow);
@@ -279,86 +280,91 @@ function App1() {
   // }, []); // Empty dependency array to run only once when the component mounts
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/submit_data")
-      .then((response) => { 
-        const data = response.data;
-        if (data.concerns.length === 0) {
-          // If no data is returned, set default values for states
-          setConcerns(['']);
-          setGoals(['']);
-          setPersonalIncome(false);
-          setLastTwoYearsTaxReturn(false);
-        } else {
-          setConcerns(data.concerns);
-          setGoals(data.goals);
-
-          const cashFlowJson = JSON.parse(data.cash_flow[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
-          setPersonalIncome(cashFlowJson.personalIncome)
-          setLastTwoYearsTaxReturn(cashFlowJson.lastTwoYearsTaxReturn)
-          setPersonal(cashFlowJson.personal)
-          setBusiness(cashFlowJson.business)
-          setShowPersonal(cashFlowJson.showPersonal)
-          setShowBusiness(cashFlowJson.showBusiness)
-
-          const portfolioJson = JSON.parse(data.portfolio[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
-          setPersonalFinancialStatements(portfolioJson.personalFinancialStatements)
-          set401k(portfolioJson.k401)
-          setBrokerage(portfolioJson.brokerage)
-          setLLC(portfolioJson.llc)
-
-          const legacyJson = JSON.parse(data.legacy[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
-          setWills(legacyJson.wills)
-          setInsurance(legacyJson.insurance)
-          setLife(legacyJson.life)
-          setShowLife(legacyJson.showLife)
-          setProperty(legacyJson.property)
-          setShowProperty(legacyJson.showProperty)
-
-          const namesOfJson = JSON.parse(data.names_of[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
-          setAccountants(namesOfJson.accountants)
-          setAttorneys(namesOfJson.attorneys)
-          setBankers(namesOfJson.bankers)
-          setOtherAdvisors(namesOfJson.otherAdvisors)
-          setFavoriteCharities(namesOfJson.favoriteCharities)
-          setKeyPersonnel(namesOfJson.keyPersonnel)
-
-
-        }
+    axios.get('http://localhost:5000/submit_data/21')
+      .then(response => {
+        console.log(response.data);
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:5000/submit_data")
+  //     .then((response) => { 
+  //       const data = response.data;
+  //       if (data.concerns.length === 0) {
+  //         // If no data is returned, set default values for states
+  //         setConcerns(['']);
+  //         setGoals(['']);
+  //         setPersonalIncome(false);
+  //         setLastTwoYearsTaxReturn(false);
+  //       } else {
+  //         setConcerns(data.concerns);
+  //         setGoals(data.goals);
+
+  //         const cashFlowJson = JSON.parse(data.cash_flow[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
+  //         setPersonalIncome(cashFlowJson.personalIncome)
+  //         setLastTwoYearsTaxReturn(cashFlowJson.lastTwoYearsTaxReturn)
+  //         setPersonal(cashFlowJson.personal)
+  //         setBusiness(cashFlowJson.business)
+  //         setShowPersonal(cashFlowJson.showPersonal)
+  //         setShowBusiness(cashFlowJson.showBusiness)
+
+  //         const portfolioJson = JSON.parse(data.portfolio[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
+  //         setPersonalFinancialStatements(portfolioJson.personalFinancialStatements)
+  //         set401k(portfolioJson.k401)
+  //         setBrokerage(portfolioJson.brokerage)
+  //         setLLC(portfolioJson.llc)
+
+  //         const legacyJson = JSON.parse(data.legacy[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
+  //         setWills(legacyJson.wills)
+  //         setInsurance(legacyJson.insurance)
+  //         setLife(legacyJson.life)
+  //         setShowLife(legacyJson.showLife)
+  //         setProperty(legacyJson.property)
+  //         setShowProperty(legacyJson.showProperty)
+
+  //         const namesOfJson = JSON.parse(data.names_of[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
+  //         setAccountants(namesOfJson.accountants)
+  //         setAttorneys(namesOfJson.attorneys)
+  //         setBankers(namesOfJson.bankers)
+  //         setOtherAdvisors(namesOfJson.otherAdvisors)
+  //         setFavoriteCharities(namesOfJson.favoriteCharities)
+  //         setKeyPersonnel(namesOfJson.keyPersonnel)
+
+
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);
   
 
 
@@ -443,6 +449,22 @@ function App1() {
             </Button>
           </>
         ) : null}
+
+
+
+
+
+      <div style={{ position: "fixed", top: "10px", right: "10px" }}>
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <button>Profile</button>
+        </Link>
+      </div>
+
+
+
+
+
+
       </div>
     
     </>

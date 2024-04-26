@@ -8,6 +8,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { Auth0Provider } from '@auth0/auth0-react';
+
 
 const router = createBrowserRouter([
   {
@@ -29,11 +31,18 @@ function App() {
 
   return (
     <>
-      <AuthProvider>
+      <Auth0Provider
+        domain="dev-ttxzeczaiblwyk42.us.auth0.com"
+        clientId="U5NDooTASDX1Wv1rIQhIW5uTNikx5sd7"
+        authorizationParams={{
+          redirect_uri: window.location.origin
+        }}
+      >
         <FormProvider> 
           <RouterProvider router={router} />
         </FormProvider>
-      </AuthProvider>
+
+      </Auth0Provider>
     </>
   );
 }

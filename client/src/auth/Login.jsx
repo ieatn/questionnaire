@@ -1,64 +1,24 @@
-import React, { useState } from 'react';
-import '../App.css'; // Import app.css
-import { Link } from "react-router-dom";
-import { AuthContext } from '../contexts/AuthContext';
-
+import React from 'react';
+import { Button } from '@mui/material';
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import Profile from './Profile';
+import { Link } from 'react-router-dom';
 
 function Login() {
-  // const { authData, updateAuthData } = useContext(AuthContext);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Mock authentication logic
-    if (username === 'a' && password === 'a') {
-      setLoggedIn(true);
-      setError('');
-    } else {
-      setLoggedIn(false);
-      setError('Invalid username or password');
-    }
-  };
-
-  const handleLogout = () => {
-    setLoggedIn(false);
-    setUsername('');
-    setPassword('');
-    setError('');
-  };
+  const { isAuthenticated } = useAuth0(); // Check authentication status with useAuth0 hook
 
   return (
-    <div className="center"> {/* Apply center class */}
-      {loggedIn ? (
-        <div>
-          <h1>Welcome, {username}!</h1>
-          <button><Link to={`/`}>form</Link></button>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
+    <div className="flex-column-center"> {/* Apply flex-column-center class */}
+      {isAuthenticated ? (
+        <React.Fragment>
+          <LogoutButton />
+          <Profile />
+          <Link to={"/"}>Return</Link>
+        </React.Fragment>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Username:</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button type="submit">Login</button>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-        </form>
+        <LoginButton />
       )}
     </div>
   );
