@@ -275,7 +275,7 @@ function App2() {
   const handleSubmit = (id) => {
     // Send a PUT request to update existing data on the server
     axios
-      .put(`http://localhost:5000/update_data/${id}`, {
+      .put(`http://localhost:5000/submit_data/${id}`, {
         user: id,
         concerns,
         goals,

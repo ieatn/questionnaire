@@ -391,7 +391,7 @@ function App1() {
   const deleteForm = (id) => {
     // Send a DELETE request to the server to delete the form data
     axios
-      .delete(`http://localhost:5000/delete_data/${id}`)
+      .delete(`http://localhost:5000/submit_data/${id}`)
       .then((response) => {
         console.log("Data deleted successfully:", response.data);
       })
