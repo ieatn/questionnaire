@@ -7,16 +7,15 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
-  Grid
+  Grid,
 } from "@mui/material";
 import { useForm } from "./contexts/FormContext"; // Import the useForm hook
 import axios from "axios";
-
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App2() {
+  const { user, isAuthenticated } = useAuth0();
 
-  
   const {
     concerns,
     setConcerns,
@@ -28,7 +27,7 @@ function App2() {
     setPersonalIncome,
     lastTwoYearsTaxReturn,
     setLastTwoYearsTaxReturn,
-    personal, 
+    personal,
     setPersonal,
     business,
     setBusiness,
@@ -36,7 +35,6 @@ function App2() {
     setShowPersonal,
     showBusiness,
     setShowBusiness,
-
 
     personalFinancialStatements,
     setPersonalFinancialStatements,
@@ -46,9 +44,6 @@ function App2() {
     setBrokerage,
     llc,
     setLLC,
-
-
-
 
     wills,
     setWills,
@@ -62,9 +57,6 @@ function App2() {
     setShowLife,
     showProperty,
     setShowProperty,
-
-
-
 
     accountants,
     setAccountants,
@@ -80,113 +72,89 @@ function App2() {
     setKeyPersonnel,
   } = useForm(); // Consume the FormContext
 
-
-
-
-
-  const [cashFlow, setCashFlow] = useState(
-    {
-      "personalIncome": personalIncome,
-      "lastTwoYearsTaxReturn": lastTwoYearsTaxReturn,
-      "personal": personal,
-      "business": business,
-      "showPersonal": personal,
-      "showBusiness": business
-    }
-  );
-  const [portfolio, setPortfolio] = useState(
-    {
-      "personalFinancialStatements": personalFinancialStatements,
-      "k401": k401,
-      "brokerage": brokerage,
-      "llc": llc
-    }
-  );
-  const [legacy, setLegacy] = useState(
-    {
-      "wills": wills,
-      "insurance": insurance,
-      "life": life,
-      "property": property,
-      "showLife": showLife,
-      "showProperty": showProperty
-    }
-  );
-  const [namesOf, setNamesOf] = useState(
-    {
-      "accountants": accountants,
-      "attorneys": attorneys,
-      "bankers": bankers,
-      "otherAdvisors": otherAdvisors,
-      "favoriteCharities": favoriteCharities,
-      "keyPersonnel": keyPersonnel
-    }
-  );
+  const [cashFlow, setCashFlow] = useState({
+    personalIncome: personalIncome,
+    lastTwoYearsTaxReturn: lastTwoYearsTaxReturn,
+    personal: personal,
+    business: business,
+    showPersonal: personal,
+    showBusiness: business,
+  });
+  const [portfolio, setPortfolio] = useState({
+    personalFinancialStatements: personalFinancialStatements,
+    k401: k401,
+    brokerage: brokerage,
+    llc: llc,
+  });
+  const [legacy, setLegacy] = useState({
+    wills: wills,
+    insurance: insurance,
+    life: life,
+    property: property,
+    showLife: showLife,
+    showProperty: showProperty,
+  });
+  const [namesOf, setNamesOf] = useState({
+    accountants: accountants,
+    attorneys: attorneys,
+    bankers: bankers,
+    otherAdvisors: otherAdvisors,
+    favoriteCharities: favoriteCharities,
+    keyPersonnel: keyPersonnel,
+  });
 
   useEffect(() => {
     // Update cashFlow whenever any of its dependencies change
     setCashFlow({
-      "personalIncome": personalIncome,
-      "lastTwoYearsTaxReturn": lastTwoYearsTaxReturn,
-      "personal": personal,
-      "business": business,
-      "showPersonal": personal,
-      "showBusiness": business
+      personalIncome: personalIncome,
+      lastTwoYearsTaxReturn: lastTwoYearsTaxReturn,
+      personal: personal,
+      business: business,
+      showPersonal: personal,
+      showBusiness: business,
     });
   }, [personalIncome, lastTwoYearsTaxReturn, personal, business]);
 
-  // useEffect(() => {
-  //   console.log(cashFlow);
-  // }, [cashFlow]);
-  
   useEffect(() => {
     // Update portfolio whenever any of its dependencies change
     setPortfolio({
-      "personalFinancialStatements": personalFinancialStatements,
-      "k401": k401,
-      "brokerage": brokerage,
-      "llc": llc
+      personalFinancialStatements: personalFinancialStatements,
+      k401: k401,
+      brokerage: brokerage,
+      llc: llc,
     });
   }, [personalFinancialStatements, k401, brokerage, llc]);
-  
+
   useEffect(() => {
     // Update legacy whenever any of its dependencies change
     setLegacy({
-      "wills": wills,
-      "insurance": insurance,
-      "life": life,
-      "property": property,
-      "showLife": showLife,
-      "showProperty": showProperty
+      wills: wills,
+      insurance: insurance,
+      life: life,
+      property: property,
+      showLife: showLife,
+      showProperty: showProperty,
     });
   }, [wills, insurance, life, property, showLife, showProperty]);
-  
+
   useEffect(() => {
     // Update namesOf whenever any of its dependencies change
     setNamesOf({
-      "accountants": accountants,
-      "attorneys": attorneys,
-      "bankers": bankers,
-      "otherAdvisors": otherAdvisors,
-      "favoriteCharities": favoriteCharities,
-      "keyPersonnel": keyPersonnel
+      accountants: accountants,
+      attorneys: attorneys,
+      bankers: bankers,
+      otherAdvisors: otherAdvisors,
+      favoriteCharities: favoriteCharities,
+      keyPersonnel: keyPersonnel,
     });
-  }, [accountants, attorneys, bankers, otherAdvisors, favoriteCharities, keyPersonnel]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }, [
+    accountants,
+    attorneys,
+    bankers,
+    otherAdvisors,
+    favoriteCharities,
+    keyPersonnel,
+  ]);
 
   // const [goals, setGoals] = useState([""]);
 
@@ -253,12 +221,6 @@ function App2() {
     setLLC(event.target.checked);
   };
 
-
-
-
-
-
-
   // const [wills, setWills] = useState(false);
   // const [insurance, setInsurance] = useState(false);
   // const [showLife, setShowLife] = useState(false);
@@ -310,41 +272,27 @@ function App2() {
     setKeyPersonnel(event.target.checked);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (id) => {
     // Send a PUT request to update existing data on the server
-    axios.put("http://localhost:5000/update_data", {
-      concerns,
-      goals,
-      cash_flow: cashFlow,
-      portfolio: portfolio,
-      legacy: legacy,
-      names_of: namesOf
-    })
-    .then((response) => {
-      console.log("Data updated successfully:", response.data);
-      // If update is successful, handle the response as needed
-    })
-    .catch((error) => {
-      console.error("Error updating data:", error);
-      // Handle error, show an error message to the user, etc.
-    });
+    axios
+      .put(`http://localhost:5000/update_data/${id}`, {
+        user: id,
+        concerns,
+        goals,
+        cash_flow: cashFlow,
+        portfolio: portfolio,
+        legacy: legacy,
+        names_of: namesOf,
+      })
+      .then((response) => {
+        console.log("Data updated successfully:", response.data);
+        // If update is successful, handle the response as needed
+      })
+      .catch((error) => {
+        console.error("Error updating data:", error);
+        // Handle error, show an error message to the user, etc.
+      });
   };
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <div style={{ width: "50%", margin: "auto" }}>
@@ -354,9 +302,7 @@ function App2() {
           alignItems="center"
           justifyContent={"space-between"}
         >
-          <Box
-            width={400}
-          >
+          <Box width={400}>
             {goals.map((goal, index) => (
               <TextField
                 key={index}
@@ -375,10 +321,7 @@ function App2() {
               +
             </Button>
           </Box>
-          <Box
-
-            width={400}
-          >
+          <Box width={400}>
             {concerns.map((concern, index) => (
               <TextField
                 key={index}
@@ -447,37 +390,42 @@ function App2() {
         </Box>
 
         <Typography variant="h5" style={{ marginTop: "20px" }}>
-            Portfolio
-          </Typography>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              marginLeft: "20px",
-            }}
-          >
-      <FormControlLabel
-        control={<Checkbox checked={personalFinancialStatements} onChange={handlePersonalFinancialStatementsChange} />}
-        label="Personal Financial Statements"
-      />
-      <FormControlLabel
-        control={<Checkbox checked={k401} onChange={handle401kChange} />}
-        label="401k"
-      />
-      <FormControlLabel
-        control={<Checkbox checked={brokerage} onChange={handleBrokerageChange} />}
-        label="Brokerage"
-      />
-      <FormControlLabel
-        control={<Checkbox checked={llc} onChange={handleLLCChange} />}
-        label="LLC"
-      />
-    </div>
+          Portfolio
+        </Typography>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: "20px",
+          }}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={personalFinancialStatements}
+                onChange={handlePersonalFinancialStatementsChange}
+              />
+            }
+            label="Personal Financial Statements"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={k401} onChange={handle401kChange} />}
+            label="401k"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox checked={brokerage} onChange={handleBrokerageChange} />
+            }
+            label="Brokerage"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={llc} onChange={handleLLCChange} />}
+            label="LLC"
+          />
+        </div>
 
-
-      <Box>
-
-      <Typography variant="h5" style={{ marginTop: "20px" }}>
+        <Box>
+          <Typography variant="h5" style={{ marginTop: "20px" }}>
             Legacy
           </Typography>
           <div
@@ -487,80 +435,114 @@ function App2() {
               marginLeft: "20px",
             }}
           >
-      <FormControlLabel
-        control={<Checkbox checked={wills} onChange={handleWillsChange} />}
-        label="Wills"
-      />
-      <FormControlLabel
-        control={<Checkbox checked={insurance} onChange={handleInsuranceChange} />}
-        label="Insurance"
-      />
-      {showLife && (
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Life"
-          style={{ marginLeft: "10px" }}
-
-        />
-      )}
-      {showProperty && (
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Property"
-          style={{ marginLeft: "10px" }}
-
-        />
-      )}
-      </div>
-      </Box>
-      <Box>
-
-      <Typography variant="h5"  align="left" style={{ marginTop: '20px' }}>
-        Names Of
-      </Typography>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={4}>
-          <FormControlLabel
-            control={<Checkbox checked={accountants} onChange={handleAccountantsChange} />}
-            label="Accountants"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <FormControlLabel
-            control={<Checkbox checked={attorneys} onChange={handleAttorneysChange} />}
-            label="Attorneys"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <FormControlLabel
-            control={<Checkbox checked={bankers} onChange={handleBankersChange} />}
-            label="Bankers"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <FormControlLabel
-            control={<Checkbox checked={otherAdvisors} onChange={handleOtherAdvisorsChange} />}
-            label="Other Advisors"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <FormControlLabel
-            control={<Checkbox checked={favoriteCharities} onChange={handleFavoriteCharitiesChange} />}
-            label="Favorite Charities"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <FormControlLabel
-            control={<Checkbox checked={keyPersonnel} onChange={handleKeyPersonnelChange} />}
-            label="Key Personnel"
-          />
-        </Grid>
-      </Grid>
-
-
-
-      </Box>
-      <Button variant="contained" color="primary" onClick={handleSubmit}>Update</Button>
+            <FormControlLabel
+              control={
+                <Checkbox checked={wills} onChange={handleWillsChange} />
+              }
+              label="Wills"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={insurance}
+                  onChange={handleInsuranceChange}
+                />
+              }
+              label="Insurance"
+            />
+            {showLife && (
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Life"
+                style={{ marginLeft: "10px" }}
+              />
+            )}
+            {showProperty && (
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Property"
+                style={{ marginLeft: "10px" }}
+              />
+            )}
+          </div>
+        </Box>
+        <Box>
+          <Typography variant="h5" align="left" style={{ marginTop: "20px" }}>
+            Names Of
+          </Typography>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={4}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={accountants}
+                    onChange={handleAccountantsChange}
+                  />
+                }
+                label="Accountants"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={attorneys}
+                    onChange={handleAttorneysChange}
+                  />
+                }
+                label="Attorneys"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControlLabel
+                control={
+                  <Checkbox checked={bankers} onChange={handleBankersChange} />
+                }
+                label="Bankers"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={otherAdvisors}
+                    onChange={handleOtherAdvisorsChange}
+                  />
+                }
+                label="Other Advisors"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={favoriteCharities}
+                    onChange={handleFavoriteCharitiesChange}
+                  />
+                }
+                label="Favorite Charities"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={keyPersonnel}
+                    onChange={handleKeyPersonnelChange}
+                  />
+                }
+                label="Key Personnel"
+              />
+            </Grid>
+          </Grid>
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleSubmit(user.nickname)}
+        >
+          Update
+        </Button>
       </Container>
     </div>
   );

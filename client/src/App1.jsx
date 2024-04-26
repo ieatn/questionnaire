@@ -121,21 +121,7 @@ function App1() {
     keyPersonnel: keyPersonnel,
   });
 
-  // useEffect(() => {
-  //   // Update cashFlow whenever any of its dependencies change
-  //   setCashFlow({
-  //     "personalIncome": personalIncome,
-  //     "lastTwoYearsTaxReturn": lastTwoYearsTaxReturn,
-  //     "personal": personal,
-  //     "business": business,
-  //     "showPersonal": personal,
-  //     "showBusiness": business
-  //   });
-  // }, [personalIncome, lastTwoYearsTaxReturn, personal, business]);
-
-  // useEffect(() => {
-  //   console.log(cashFlow);
-  // }, [cashFlow]);
+  
 
   useEffect(() => {
     // Update portfolio whenever any of its dependencies change
@@ -290,7 +276,7 @@ function App1() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/submit_data")
+      .get(`http://localhost:5000/submit_data`)
       .then((response) => {
         const data = response.data;
         if (data.concerns.length === 0) {
@@ -375,15 +361,15 @@ function App1() {
 
 
   const handleSubmit = () => {
-    // Send a POST request to the server to save the form data
-    axios
-      .post("http://localhost:5000/submit_data", {
+      // If no record exists, proceed with submitting the form data
+      axios.post("http://localhost:5000/submit_data", {
         concerns,
         goals,
         cash_flow: cashFlow,
         portfolio: portfolio,
         legacy: legacy,
         names_of: namesOf,
+        user: user.nickname // Include user.nickname in the data
       })
       .then((response) => {
         console.log("Data submitted successfully:", response.data);
@@ -391,10 +377,28 @@ function App1() {
         handleNext();
       })
       .catch((error) => {
-        console.error("Error submitting data:", error);
+        // Check if the error response contains a message
+        if (error.response && error.response.data && error.response.data.message) {
+          console.error("Error submitting data:", error.response.data.message);
+        } else {
+          console.error("Error submitting data:", error);
+        }
         // Handle error, show an error message to the user, etc.
       });
-  };
+    }
+
+
+  const deleteForm = (id) => {
+    // Send a DELETE request to the server to delete the form data
+    axios
+      .delete(`http://localhost:5000/delete_data/${id}`)
+      .then((response) => {
+        console.log("Data deleted successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error deleting data:", error);
+      });
+  }
 
   return (
     <>
@@ -433,7 +437,7 @@ function App1() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSubmit}
+                  onClick={() => handleSubmit(user.nickname)}
                 >
                   Submit
                 </Button>
@@ -456,6 +460,16 @@ function App1() {
             <button>Profile</button>
           </Link>
         </div>
+
+        <Button onClick={() => deleteForm(user.nickname)}>BIG RESET</Button>
+          
+
+
+
+
+
+
+
       </div>
     </>
   );

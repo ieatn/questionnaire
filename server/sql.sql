@@ -1,12 +1,4 @@
 use circlesdb;
--- CREATE TABLE submitted_data (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     concerns TEXT,
---     goals TEXT,
---     cash_flow TEXT,
---     portfolio TEXT,
---     legacy TEXT,
---     names_of TEXT
--- );
+-- ALTER TABLE submitted_data ADD COLUMN user VARCHAR(255);
 select * from submitted_data;
 -- TRUNCATE TABLE submitted_data;
