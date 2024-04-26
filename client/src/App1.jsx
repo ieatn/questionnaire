@@ -14,10 +14,14 @@ import axios from "axios";
 import { useForm } from "./contexts/FormContext"; // Import the useForm hook
 import { Link } from "react-router-dom";
 import App2 from "./App2";
-import LogoutButton from "./auth/LogoutButton"; 
+import LogoutButton from "./auth/LogoutButton";
 import Profile from "./auth/Profile";
+import { useAuth0 } from "@auth0/auth0-react";
+import "./App.css";
 
 function App1() {
+  const { user, isAuthenticated } = useAuth0();
+
   const [step, setStep] = useState(1); // Track the current step, start from step 1 (concerns)
   const steps = [
     "PrimaryConcerns",
@@ -30,16 +34,6 @@ function App1() {
     "Finished!",
   ];
 
-
-
-
-
-
-
-
-
-
-
   const {
     concerns,
     setConcerns,
@@ -51,7 +45,7 @@ function App1() {
     setPersonalIncome,
     lastTwoYearsTaxReturn,
     setLastTwoYearsTaxReturn,
-    personal, 
+    personal,
     setPersonal,
     business,
     setBusiness,
@@ -59,7 +53,6 @@ function App1() {
     setShowPersonal,
     showBusiness,
     setShowBusiness,
-
 
     personalFinancialStatements,
     setPersonalFinancialStatements,
@@ -69,9 +62,6 @@ function App1() {
     setBrokerage,
     llc,
     setLLC,
-
-
-
 
     wills,
     setWills,
@@ -85,9 +75,6 @@ function App1() {
     setShowLife,
     showProperty,
     setShowProperty,
-
-
-
 
     accountants,
     setAccountants,
@@ -103,45 +90,36 @@ function App1() {
     setKeyPersonnel,
   } = useForm(); // Consume the FormContext
 
-
-  const [cashFlow, setCashFlow] = useState(
-    {
-      "personalIncome": personalIncome,
-      "lastTwoYearsTaxReturn": lastTwoYearsTaxReturn,
-      "personal": personal,
-      "business": business,
-      "showPersonal": personal,
-      "showBusiness": business
-    }
-  );
-  const [portfolio, setPortfolio] = useState(
-    {
-      "personalFinancialStatements": personalFinancialStatements,
-      "k401": k401,
-      "brokerage": brokerage,
-      "llc": llc
-    }
-  );
-  const [legacy, setLegacy] = useState(
-    {
-      "wills": wills,
-      "insurance": insurance,
-      "life": life,
-      "property": property,
-      "showLife": showLife,
-      "showProperty": showProperty
-    }
-  );
-  const [namesOf, setNamesOf] = useState(
-    {
-      "accountants": accountants,
-      "attorneys": attorneys,
-      "bankers": bankers,
-      "otherAdvisors": otherAdvisors,
-      "favoriteCharities": favoriteCharities,
-      "keyPersonnel": keyPersonnel
-    }
-  );
+  const [cashFlow, setCashFlow] = useState({
+    personalIncome: personalIncome,
+    lastTwoYearsTaxReturn: lastTwoYearsTaxReturn,
+    personal: personal,
+    business: business,
+    showPersonal: personal,
+    showBusiness: business,
+  });
+  const [portfolio, setPortfolio] = useState({
+    personalFinancialStatements: personalFinancialStatements,
+    k401: k401,
+    brokerage: brokerage,
+    llc: llc,
+  });
+  const [legacy, setLegacy] = useState({
+    wills: wills,
+    insurance: insurance,
+    life: life,
+    property: property,
+    showLife: showLife,
+    showProperty: showProperty,
+  });
+  const [namesOf, setNamesOf] = useState({
+    accountants: accountants,
+    attorneys: attorneys,
+    bankers: bankers,
+    otherAdvisors: otherAdvisors,
+    favoriteCharities: favoriteCharities,
+    keyPersonnel: keyPersonnel,
+  });
 
   // useEffect(() => {
   //   // Update cashFlow whenever any of its dependencies change
@@ -158,58 +136,47 @@ function App1() {
   // useEffect(() => {
   //   console.log(cashFlow);
   // }, [cashFlow]);
-  
+
   useEffect(() => {
     // Update portfolio whenever any of its dependencies change
     setPortfolio({
-      "personalFinancialStatements": personalFinancialStatements,
-      "k401": k401,
-      "brokerage": brokerage,
-      "llc": llc
+      personalFinancialStatements: personalFinancialStatements,
+      k401: k401,
+      brokerage: brokerage,
+      llc: llc,
     });
   }, [personalFinancialStatements, k401, brokerage, llc]);
-  
+
   useEffect(() => {
     // Update legacy whenever any of its dependencies change
     setLegacy({
-      "wills": wills,
-      "insurance": insurance,
-      "life": life,
-      "property": property,
-      "showLife": showLife,
-      "showProperty": showProperty
+      wills: wills,
+      insurance: insurance,
+      life: life,
+      property: property,
+      showLife: showLife,
+      showProperty: showProperty,
     });
   }, [wills, insurance, life, property, showLife, showProperty]);
-  
+
   useEffect(() => {
     // Update namesOf whenever any of its dependencies change
     setNamesOf({
-      "accountants": accountants,
-      "attorneys": attorneys,
-      "bankers": bankers,
-      "otherAdvisors": otherAdvisors,
-      "favoriteCharities": favoriteCharities,
-      "keyPersonnel": keyPersonnel
+      accountants: accountants,
+      attorneys: attorneys,
+      bankers: bankers,
+      otherAdvisors: otherAdvisors,
+      favoriteCharities: favoriteCharities,
+      keyPersonnel: keyPersonnel,
     });
-  }, [accountants, attorneys, bankers, otherAdvisors, favoriteCharities, keyPersonnel]);
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }, [
+    accountants,
+    attorneys,
+    bankers,
+    otherAdvisors,
+    favoriteCharities,
+    keyPersonnel,
+  ]);
 
   const handleNext = () => {
     setStep(step + 1); // Move to the next step
@@ -268,24 +235,110 @@ function App1() {
 
 
 
-  // useEffect(() => {
-  //   // Make an HTTP GET request to the Flask server
-  //   axios.get('http://localhost:5000/')
-  //     .then(response => {
-  //       console.log(response.data); // Log the response data (the "hello world" message)
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []); // Empty dependency array to run only once when the component mounts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   useEffect(() => {
-    axios.get('http://localhost:5000/submit_data/21')
+    // Make an HTTP GET request to the Flask server
+    axios.get('http://localhost:5000/')
       .then(response => {
-        console.log(response.data);
+        console.log(response.data); // Log the response data (the "hello world" message)
       })
-  })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []); // Empty dependency array to run only once when the component mounts
+
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/submit_data")
+      .then((response) => {
+        const data = response.data;
+        if (data.concerns.length === 0) {
+          // If no data is returned, set default values for states
+          setConcerns(['']);
+          setGoals(['']);
+          setPersonalIncome(false);
+          setLastTwoYearsTaxReturn(false);
+        } else {
+          setConcerns(data.concerns);
+          setGoals(data.goals);
+
+          const cashFlowJson = JSON.parse(data.cash_flow[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
+          setPersonalIncome(cashFlowJson.personalIncome)
+          setLastTwoYearsTaxReturn(cashFlowJson.lastTwoYearsTaxReturn)
+          setPersonal(cashFlowJson.personal)
+          setBusiness(cashFlowJson.business)
+          setShowPersonal(cashFlowJson.showPersonal)
+          setShowBusiness(cashFlowJson.showBusiness)
+
+          const portfolioJson = JSON.parse(data.portfolio[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
+          setPersonalFinancialStatements(portfolioJson.personalFinancialStatements)
+          set401k(portfolioJson.k401)
+          setBrokerage(portfolioJson.brokerage)
+          setLLC(portfolioJson.llc)
+
+          const legacyJson = JSON.parse(data.legacy[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
+          setWills(legacyJson.wills)
+          setInsurance(legacyJson.insurance)
+          setLife(legacyJson.life)
+          setShowLife(legacyJson.showLife)
+          setProperty(legacyJson.property)
+          setShowProperty(legacyJson.showProperty)
+
+          const namesOfJson = JSON.parse(data.names_of[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
+          setAccountants(namesOfJson.accountants)
+          setAttorneys(namesOfJson.attorneys)
+          setBankers(namesOfJson.bankers)
+          setOtherAdvisors(namesOfJson.otherAdvisors)
+          setFavoriteCharities(namesOfJson.favoriteCharities)
+          setKeyPersonnel(namesOfJson.keyPersonnel)
+
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
 
 
@@ -313,72 +366,7 @@ function App1() {
 
 
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:5000/submit_data")
-  //     .then((response) => { 
-  //       const data = response.data;
-  //       if (data.concerns.length === 0) {
-  //         // If no data is returned, set default values for states
-  //         setConcerns(['']);
-  //         setGoals(['']);
-  //         setPersonalIncome(false);
-  //         setLastTwoYearsTaxReturn(false);
-  //       } else {
-  //         setConcerns(data.concerns);
-  //         setGoals(data.goals);
-
-  //         const cashFlowJson = JSON.parse(data.cash_flow[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
-  //         setPersonalIncome(cashFlowJson.personalIncome)
-  //         setLastTwoYearsTaxReturn(cashFlowJson.lastTwoYearsTaxReturn)
-  //         setPersonal(cashFlowJson.personal)
-  //         setBusiness(cashFlowJson.business)
-  //         setShowPersonal(cashFlowJson.showPersonal)
-  //         setShowBusiness(cashFlowJson.showBusiness)
-
-  //         const portfolioJson = JSON.parse(data.portfolio[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
-  //         setPersonalFinancialStatements(portfolioJson.personalFinancialStatements)
-  //         set401k(portfolioJson.k401)
-  //         setBrokerage(portfolioJson.brokerage)
-  //         setLLC(portfolioJson.llc)
-
-  //         const legacyJson = JSON.parse(data.legacy[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
-  //         setWills(legacyJson.wills)
-  //         setInsurance(legacyJson.insurance)
-  //         setLife(legacyJson.life)
-  //         setShowLife(legacyJson.showLife)
-  //         setProperty(legacyJson.property)
-  //         setShowProperty(legacyJson.showProperty)
-
-  //         const namesOfJson = JSON.parse(data.names_of[0].replace(/True/g, 'true').replace(/False/g, 'false').replace(/'/g, '"'))
-  //         setAccountants(namesOfJson.accountants)
-  //         setAttorneys(namesOfJson.attorneys)
-  //         setBankers(namesOfJson.bankers)
-  //         setOtherAdvisors(namesOfJson.otherAdvisors)
-  //         setFavoriteCharities(namesOfJson.favoriteCharities)
-  //         setKeyPersonnel(namesOfJson.keyPersonnel)
-
-
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // }, []);
   
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -388,23 +376,24 @@ function App1() {
 
   const handleSubmit = () => {
     // Send a POST request to the server to save the form data
-    axios.post("http://localhost:5000/submit_data", {
-      concerns,
-      goals,
-      cash_flow: cashFlow,
-      portfolio: portfolio,
-      legacy: legacy,
-      names_of: namesOf
-    })
-    .then((response) => {
-      console.log("Data submitted successfully:", response.data);
-      // If submission is successful, move to the next step
-      handleNext();
-    })
-    .catch((error) => {
-      console.error("Error submitting data:", error);
-      // Handle error, show an error message to the user, etc.
-    });
+    axios
+      .post("http://localhost:5000/submit_data", {
+        concerns,
+        goals,
+        cash_flow: cashFlow,
+        portfolio: portfolio,
+        legacy: legacy,
+        names_of: namesOf,
+      })
+      .then((response) => {
+        console.log("Data submitted successfully:", response.data);
+        // If submission is successful, move to the next step
+        handleNext();
+      })
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+        // Handle error, show an error message to the user, etc.
+      });
   };
 
   return (
@@ -437,36 +426,37 @@ function App1() {
               onClick={handleBack}
               disabled={step === 1}
             >
-              {" "}
-              Back{" "}
+              Back
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={step === 7 ? handleSubmit : handleNext}
-            >
-              {step === 7 ? "Submit" : "Next"}
-            </Button>
+            {step === 7 ? (
+              <Link to="/submitted" style={{ textDecoration: "none" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </Link>
+            ) : (
+              <Button variant="contained" color="primary" onClick={handleNext}>
+                Next
+              </Button>
+            )}
           </>
         ) : null}
 
-
-
-
-
-      <div style={{ position: "fixed", top: "10px", right: "10px" }}>
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <button>Profile</button>
-        </Link>
+        <div style={{ position: "fixed", top: "10px", right: "10px" }}>
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            {isAuthenticated ? (
+              <div className="profile-img">
+                <img src={user.picture} alt={user.name} />
+              </div>
+            ) : null}
+            <button>Profile</button>
+          </Link>
+        </div>
       </div>
-
-
-
-
-
-
-      </div>
-    
     </>
   );
 }

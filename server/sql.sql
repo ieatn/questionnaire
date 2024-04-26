@@ -9,3 +9,4 @@ use circlesdb;
 --     names_of TEXT
 -- );
 select * from submitted_data;
+-- TRUNCATE TABLE submitted_data;
